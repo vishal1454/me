@@ -1,1 +1,169 @@
 <!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vishal Digital Card</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1313ec">
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "#1313ec",
+        bgLight: "#f6f6f8",
+        bgDark: "#101022"
+      },
+      fontFamily: { display: ["Inter","sans-serif"] }
+    }
+  }
+}
+</script>
+
+<!-- QR -->
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+</head>
+
+<body class="bg-bgLight dark:bg-bgDark font-display text-slate-900 dark:text-white">
+
+<div class="max-w-md mx-auto min-h-screen shadow-2xl relative">
+
+<header class="sticky top-0 p-4 bg-white/80 dark:bg-bgDark/80 backdrop-blur border-b">
+  <h1 class="text-xl font-bold">My Card</h1>
+</header>
+
+<!-- CARD -->
+<div class="p-4">
+  <div class="rounded-2xl bg-gradient-to-br from-primary to-indigo-700 p-6 text-white shadow-xl flex flex-col gap-4">
+
+    <div class="flex justify-between items-center">
+      <h2 class="text-2xl font-bold">Vishal</h2>
+      <button id="qrBtn" class="bg-white/20 rounded-full size-10 flex items-center justify-center">
+        <span class="material-symbols-outlined">qr_code_2</span>
+      </button>
+    </div>
+
+    <p class="text-blue-100 text-sm">Developer • Tech Enthusiast</p>
+
+    <div class="flex justify-between items-end">
+      <div>
+        <p class="text-sm opacity-80">Email</p>
+        <p class="font-medium">vishal1454@googlegroups.com</p>
+      </div>
+      <img
+        src="https://github.com/vishal1454/Me/blob/main/Gemini_Generated_Image_2lnmnx2lnmnx2lnm~2.png?raw=true"
+        class="size-16 rounded-full border-2 border-white/40 object-cover"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- DETAILS -->
+<div class="mx-4 rounded-xl overflow-hidden border">
+  <div class="flex items-center gap-4 px-4 py-4 bg-white dark:bg-gray-900">
+    <span class="material-symbols-outlined text-primary">mail</span>
+    <span class="truncate">vishal1454@googlegroups.com</span>
+  </div>
+
+  <div class="flex items-center gap-4 px-4 py-4 bg-white dark:bg-gray-900 border-t">
+    <span class="material-symbols-outlined text-primary">location_on</span>
+    <span class="truncate">India, Tamil Nadu, Chennai, Mangadu</span>
+  </div>
+</div>
+
+<!-- SOCIAL -->
+<div class="px-4 mt-6">
+<h3 class="text-xs font-semibold uppercase mb-3 opacity-70">Social & Links</h3>
+
+<div class="flex flex-wrap gap-3">
+<a class="chip" href="https://github.com/vishal1454" target="_blank">GitHub</a>
+<a class="chip" href="https://www.reddit.com/u/vishal1454" target="_blank">Reddit</a>
+<a class="chip" href="https://roblox.com/users/10212463211/profile" target="_blank">Roblox</a>
+<a class="chip" href="https://www.twitch.tv/appmakervishal" target="_blank">Twitch</a>
+<a class="chip" href="https://x.com/vishal1454_k" target="_blank">X</a>
+<a class="chip" href="https://www.linkedin.com/in/vishal1454" target="_blank">LinkedIn</a>
+<a class="chip" href="https://discordapp.com/users/1412795406936440872" target="_blank">Discord</a>
+<a class="chip" href="https://www.facebook.com/profile.php?id=61585632511593" target="_blank">Facebook</a>
+<a class="chip" href="https://docs.google.com/forms/d/e/1FAIpQLScVrVlCeOBzcRmGOYg6nRA_vR9CaW7FvAXvJ6yv-gxFCEKXUg/viewform" target="_blank">Google Form</a>
+</div>
+</div>
+
+<!-- SHARE -->
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-white/90 dark:bg-bgDark/90 backdrop-blur border-t max-w-md mx-auto">
+<button id="shareBtn" class="w-full h-12 bg-primary text-white font-bold rounded-xl flex items-center justify-center gap-2">
+  <span class="material-symbols-outlined">share</span>
+  Share Contact
+</button>
+</div>
+
+<!-- QR MODAL -->
+<div id="qrModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50">
+  <div class="bg-white dark:bg-gray-900 p-6 rounded-xl">
+    <canvas id="qrCanvas"></canvas>
+    <button onclick="closeQR()" class="mt-4 w-full bg-primary text-white rounded-lg py-2">Close</button>
+  </div>
+</div>
+
+</div>
+
+<style>
+.chip{
+  padding:.4rem .8rem;
+  border-radius:9999px;
+  border:1px solid #e5e7eb;
+  background:white;
+  font-size:.85rem;
+}
+.dark .chip{background:#111;border-color:#333}
+</style>
+
+<script>
+function generateQR(){
+ new QRious({
+  element:document.getElementById("qrCanvas"),
+  value:location.href,
+  size:200
+ })
+ document.getElementById("qrModal").classList.remove("hidden")
+}
+function closeQR(){
+ document.getElementById("qrModal").classList.add("hidden")
+}
+document.getElementById("qrBtn").onclick=generateQR
+
+document.getElementById("shareBtn").onclick=()=>{
+ const v=`BEGIN:VCARD
+VERSION:3.0
+FN:Vishal
+EMAIL:vishal1454@googlegroups.com
+ADR:;;Mangadu;Chennai;Tamil Nadu;India
+END:VCARD`
+ const b=new Blob([v],{type:"text/vcard"})
+ const a=document.createElement("a")
+ a.href=URL.createObjectURL(b)
+ a.download="Vishal.vcf"
+ a.click()
+}
+</script>
+
+<!-- SERVICE WORKER -->
+<script>
+if("serviceWorker" in navigator){
+ navigator.serviceWorker.register("service-worker.js")
+}
+</script>
+
+</body>
+</html>
+
